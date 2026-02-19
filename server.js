@@ -5,8 +5,7 @@ const cors = require("cors");
 
 const app = express();
 
-// CORS FIX
-
+/* ================= CORS ================= */
 
 app.use(cors({
   origin: [
@@ -19,21 +18,27 @@ app.use(cors({
 
 app.use(express.json());
 
-// MongoDB
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected ✅"))
-.catch(err => console.log("MongoDB Error ❌", err));
+/* ================= MongoDB ================= */
 
-// Routes
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected ✅"))
+  .catch(err => console.log("MongoDB Error ❌", err));
+
+/* ================= Routes ================= */
+
 const itemRoutes = require("./routes/items");
 const authRoutes = require("./routes/auth");
 
 app.use("/api/items", itemRoutes);
 app.use("/api/auth", authRoutes);
 
+/* ================= Test Route ================= */
+
 app.get("/", (req, res) => {
   res.send("Backend Running 🚀");
 });
+
+/* ================= Start Server ================= */
 
 const PORT = process.env.PORT || 5000;
 
