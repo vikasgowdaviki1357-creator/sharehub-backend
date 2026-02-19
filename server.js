@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 
 // CORS FIX
-const cors = require("cors");
+
 
 app.use(cors({
   origin: [
