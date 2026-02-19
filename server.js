@@ -6,12 +6,14 @@ const cors = require("cors");
 const app = express();
 
 // CORS FIX
+const cors = require("cors");
+
 app.use(cors({
   origin: [
-    "https://community-sharing.netlify.app/",
-    "http://localhost:5500"
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "https://community-sharing.netlify.app"
   ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
