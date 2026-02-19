@@ -3,7 +3,12 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String
+  password: String,
+  role: {
+    type: String,
+    enum: ["student", "admin"],
+    required: true
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

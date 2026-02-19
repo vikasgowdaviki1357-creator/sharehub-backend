@@ -6,9 +6,9 @@ const User = require("../models/User");
 
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -18,7 +18,13 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser = new User({ name, email, password });
+    const newUser = new User({
+      name,
+      email,
+      password,
+      role
+    });
+
     await newUser.save();
 
     res.json({ message: "User registered successfully" });
@@ -48,17 +54,6 @@ router.post("/login", async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-/* ================= CHECK ALL USERS (FOR TESTING) ================= */
-
-router.get("/all", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 });
