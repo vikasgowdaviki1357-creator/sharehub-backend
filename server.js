@@ -5,30 +5,36 @@ const cors = require("cors");
 
 const app = express();
 
-// ===== Import Routes =====
+// CORS FIX
+app.use(cors({
+  origin: [
+    "https://community-sharing.netlify.app/",
+    "http://localhost:5500"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+app.use(express.json());
+
+// MongoDB
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected ✅"))
+.catch(err => console.log("MongoDB Error ❌", err));
+
+// Routes
 const itemRoutes = require("./routes/items");
 const authRoutes = require("./routes/auth");
 
-// ===== Middlewares =====
-app.use(cors());
-app.use(express.json());
-
-// ===== MongoDB Connection =====
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected ✅"))
-.catch((err) => console.log("MongoDB Error ❌", err));
-
-// ===== Routes =====
 app.use("/api/items", itemRoutes);
 app.use("/api/auth", authRoutes);
 
-// ===== Test Route =====
 app.get("/", (req, res) => {
-    res.send("ShareHub Backend Running 🚀");
+  res.send("Backend Running 🚀");
 });
 
-// ===== Start Server =====
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT} 🚀`);
+  console.log(`Server running on port ${PORT}`);
 });
